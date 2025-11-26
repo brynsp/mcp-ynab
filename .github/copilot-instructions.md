@@ -5,7 +5,7 @@ This repository contains a Model Context Protocol (MCP) server for YNAB (You Nee
 ## Project Overview
 
 - **Purpose**: Provide an MCP server that enables AI assistants to interact with YNAB's budgeting API
-- **Technology**: TypeScript/Node.js MCP server implementation
+- **Technology**: Python MCP server implementation
 
 ## Development Guidelines
 
