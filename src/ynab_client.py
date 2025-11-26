@@ -53,12 +53,15 @@ class YNABClient:
         """Context manager exit."""
         self.close()
 
-    def _make_request(self, endpoint: str) -> dict[str, Any]:
+    def _make_request(
+        self, endpoint: str, params: dict[str, str] | None = None
+    ) -> dict[str, Any]:
         """
         Make a GET request to the YNAB API.
 
         Args:
             endpoint: API endpoint path.
+            params: Optional query parameters.
 
         Returns:
             dict: Parsed JSON response data.
@@ -67,7 +70,7 @@ class YNABClient:
             YNABClientError: If the API request fails.
         """
         try:
-            response = self._client.get(endpoint)
+            response = self._client.get(endpoint, params=params)
             response.raise_for_status()
             return response.json()
         except httpx.HTTPStatusError as e:
@@ -214,18 +217,15 @@ class YNABClient:
         Returns:
             dict: List of transactions.
         """
-        params = {}
+        params: dict[str, str] = {}
         if since_date:
             params["since_date"] = since_date
         if type_filter:
             params["type"] = type_filter
 
-        endpoint = f"/budgets/{budget_id}/transactions"
-        if params:
-            param_str = "&".join(f"{k}={v}" for k, v in params.items())
-            endpoint = f"{endpoint}?{param_str}"
-
-        return self._make_request(endpoint)
+        return self._make_request(
+            f"/budgets/{budget_id}/transactions", params=params or None
+        )
 
     def get_transaction(self, budget_id: str, transaction_id: str) -> dict[str, Any]:
         """
@@ -257,11 +257,10 @@ class YNABClient:
         Returns:
             dict: List of transactions for the account.
         """
-        endpoint = f"/budgets/{budget_id}/accounts/{account_id}/transactions"
-        if since_date:
-            endpoint = f"{endpoint}?since_date={since_date}"
-
-        return self._make_request(endpoint)
+        params = {"since_date": since_date} if since_date else None
+        return self._make_request(
+            f"/budgets/{budget_id}/accounts/{account_id}/transactions", params=params
+        )
 
     def get_transactions_by_category(
         self,
@@ -280,11 +279,10 @@ class YNABClient:
         Returns:
             dict: List of transactions for the category.
         """
-        endpoint = f"/budgets/{budget_id}/categories/{category_id}/transactions"
-        if since_date:
-            endpoint = f"{endpoint}?since_date={since_date}"
-
-        return self._make_request(endpoint)
+        params = {"since_date": since_date} if since_date else None
+        return self._make_request(
+            f"/budgets/{budget_id}/categories/{category_id}/transactions", params=params
+        )
 
     def get_transactions_by_payee(
         self,
@@ -303,11 +301,10 @@ class YNABClient:
         Returns:
             dict: List of transactions for the payee.
         """
-        endpoint = f"/budgets/{budget_id}/payees/{payee_id}/transactions"
-        if since_date:
-            endpoint = f"{endpoint}?since_date={since_date}"
-
-        return self._make_request(endpoint)
+        params = {"since_date": since_date} if since_date else None
+        return self._make_request(
+            f"/budgets/{budget_id}/payees/{payee_id}/transactions", params=params
+        )
 
     # Monthly budget endpoints
 

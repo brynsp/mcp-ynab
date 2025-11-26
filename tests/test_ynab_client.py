@@ -107,7 +107,7 @@ class TestYNABClientBudgets:
             return_value=create_mock_response(200, mock_response_data),
         ) as mock_get:
             result = client.get_budget("last-used")
-            mock_get.assert_called_once_with("/budgets/last-used")
+            mock_get.assert_called_once_with("/budgets/last-used", params=None)
             assert result == mock_response_data
 
     def test_get_budget_settings(self, client: YNABClient) -> None:
@@ -202,9 +202,12 @@ class TestYNABClientTransactions:
                 "budget-1", since_date="2024-01-01", type_filter="uncategorized"
             )
             mock_get.assert_called_once()
-            call_args = mock_get.call_args[0][0]
-            assert "since_date=2024-01-01" in call_args
-            assert "type=uncategorized" in call_args
+            call_args = mock_get.call_args
+            assert call_args[0][0] == "/budgets/budget-1/transactions"
+            assert call_args[1]["params"] == {
+                "since_date": "2024-01-01",
+                "type": "uncategorized",
+            }
 
     def test_get_transaction(self, client: YNABClient) -> None:
         """Test getting a single transaction."""
@@ -234,9 +237,12 @@ class TestYNABClientTransactions:
             client.get_transactions_by_account(
                 "budget-1", "account-1", since_date="2024-01-01"
             )
-            call_args = mock_get.call_args[0][0]
-            assert "/accounts/account-1/transactions" in call_args
-            assert "since_date=2024-01-01" in call_args
+            call_args = mock_get.call_args
+            assert (
+                call_args[0][0]
+                == "/budgets/budget-1/accounts/account-1/transactions"
+            )
+            assert call_args[1]["params"] == {"since_date": "2024-01-01"}
 
 
 class TestYNABClientCategories:
