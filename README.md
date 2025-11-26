@@ -28,23 +28,27 @@ This server provides read-only access to your YNAB (You Need A Budget) data thro
 ### From Source
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/brynsp/mcp-ynab.git
    cd mcp-ynab
    ```
 
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. Set your YNAB personal access token:
+
    ```bash
    export YNAB_TOKEN=your-personal-access-token
    ```
@@ -52,11 +56,13 @@ This server provides read-only access to your YNAB (You Need A Budget) data thro
 ### Using Docker
 
 1. Build the Docker image:
+
    ```bash
    docker build -t ynab-mcp-server .
    ```
 
 2. Run the container:
+
    ```bash
    docker run -e YNAB_TOKEN=your-personal-access-token ynab-mcp-server
    ```
@@ -90,23 +96,28 @@ The server uses environment variables for configuration:
 The MCP server exposes the following tools:
 
 ### Budget Tools
+
 - `get_budgets` - Get all budgets
 - `get_budget` - Get a single budget by ID
 - `get_budget_settings` - Get budget settings
 
 ### Account Tools
+
 - `get_accounts` - Get all accounts for a budget
 - `get_account` - Get a single account by ID
 
 ### Category Tools
+
 - `get_categories` - Get all categories for a budget
 - `get_category` - Get a single category by ID
 
 ### Payee Tools
+
 - `get_payees` - Get all payees for a budget
 - `get_payee` - Get a single payee by ID
 
 ### Transaction Tools
+
 - `get_transactions` - Get transactions (with optional filters)
 - `get_transaction` - Get a single transaction by ID
 - `get_transactions_by_account` - Get transactions for a specific account
@@ -114,10 +125,12 @@ The MCP server exposes the following tools:
 - `get_transactions_by_payee` - Get transactions for a specific payee
 
 ### Monthly Budget Tools
+
 - `get_months` - Get all budget months
 - `get_month` - Get a single budget month with category balances
 
 ### Scheduled Transaction Tools
+
 - `get_scheduled_transactions` - Get all scheduled transactions
 - `get_scheduled_transaction` - Get a single scheduled transaction
 
@@ -185,12 +198,14 @@ mcp-ynab/
 ### YNAB API Documentation
 
 For more information about the YNAB API, visit:
+
 - [YNAB API Documentation](https://api.ynab.com/)
 - [YNAB API Rate Limiting](https://api.ynab.com/#rate-limiting)
 
 ### MCP Protocol
 
 For more information about the Model Context Protocol, visit:
+
 - [MCP Documentation](https://modelcontextprotocol.io/)
 
 ## Contributing

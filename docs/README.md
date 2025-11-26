@@ -23,7 +23,7 @@ The YNAB MCP Server is designed with modularity and extensibility in mind. Here'
 
 ### Data Flow
 
-```
+```text
 MCP Client -> MCP Server (main.py) -> YNAB Client (ynab_client.py) -> YNAB API
 ```
 
@@ -34,6 +34,7 @@ MCP Client -> MCP Server (main.py) -> YNAB Client (ynab_client.py) -> YNAB API
 To add a new tool:
 
 1. Add the YNAB API method to `ynab_client.py`:
+
    ```python
    def get_new_data(self, budget_id: str) -> dict[str, Any]:
        """Get new data from YNAB."""
@@ -41,6 +42,7 @@ To add a new tool:
    ```
 
 2. Add the tool definition to `list_tools()` in `main.py`:
+
    ```python
    Tool(
        name="get_new_data",
@@ -59,6 +61,7 @@ To add a new tool:
    ```
 
 3. Add the tool handler to `_execute_tool()`:
+
    ```python
    case "get_new_data":
        return client.get_new_data(arguments["budget_id"])
